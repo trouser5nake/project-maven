@@ -51,8 +51,7 @@
     <build>
         <resources>
             <resource>
-                <directory>${project.basedir}/lib</directory>
-                <filtering>true</filtering>
+                <directory>${project.build.directory}/dependencies</directory>
             </resource>
         </resources>
         <plugins>
@@ -72,12 +71,12 @@
                 <executions>
                     <execution>
                         <id>copy-dependencies</id>
-                        <phase>package</phase>
+                        <phase>generate-resources</phase>
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <outputDirectory>${project.build.directory}/dependencies/lib</outputDirectory>
                             <overWriteReleases>false</overWriteReleases>
                             <overWriteSnapshots>false</overWriteSnapshots>
                             <overWriteIfNewer>true</overWriteIfNewer>
@@ -100,16 +99,16 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.4</version>
                 <configuration>
-                    <includes>
-                        <include>**${project.basedir}/*</include>
-                    </includes>
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
                             <mainClass>org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader</mainClass>
-                            <Rsrc-Main-Class>com.javarush.games.racer.RacerGame</Rsrc-Main-Class>
                         </manifest>
+                        <manifestEntries>
+                            <Rsrc-Main-Class>com.javarush.games.racer.RacerGame</Rsrc-Main-Class>
+                            <Class-Path>./</Class-Path>
+                        </manifestEntries>
                     </archive>
                 </configuration>
             </plugin>
